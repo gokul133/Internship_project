@@ -1,0 +1,213 @@
+{% extends 'student.html' %}
+
+{% block content %}
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .submitQuizBtn {
+        background-color: #613CB0;
+        color: #ffffff;
+        border: none;
+        cursor: pointer;
+        margin-top: 20px;
+        padding: 8px;
+        border-radius: 4px;
+        width: 100%;
+    }
+
+        .quiz-container {
+            width: 400px;
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+        }
+
+        input[type="text"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #613CB0;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .option {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .question:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <div class="container">
+        <div class="quiz-container">
+            <h1>Quiz</h1>
+            <form id="quizForm" method="post" action="/submit_quiz">
+                <label>Enter Exam Code:
+                    <input type="text" name="examCode">
+                </label>
+                <input type="submit" value="Retrieve Questions">
+
+                <div id="questionsContainer"></div>
+            </form>
+
+            <div id="submitQuizContainer" style="display: none;">
+                <h2>Quiz Questions</h2>
+                <div id="quizQuestions"></div>
+                <button class="submitQuizBtn" id="submitQuizBtn">Submit Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to retrieve the questions and options from the server
+        function retrieveQuestions() {
+            var examCode = document.getElementsByName('examCode')[0].value;
+
+            var request = new XMLHttpRequest();
+            request.open("GET", "/retrieve_questions?examCode=" + examCode, true);
+            request.onreadystatechange = function() {
+                if (request.readyState === 4 && request.status === 200) {
+                    var response = JSON.parse(request.responseText);
+                    if (response.questions.length === 0) {
+                        alert("No questions found for the entered exam code.");
+                    } else if (response.questions.length === 0 && response.hasOwnProperty('flash_message')) {
+                        alert(response.flash_message);
+                    } else {
+                        displayQuestions(response.questions);
+                    }
+                }
+            };
+            request.send();
+        }
+
+        // Function to display the retrieved questions and options
+        function displayQuestions(questions) {
+            var questionsContainer = document.getElementById('questionsContainer');
+            questionsContainer.innerHTML = '';
+            var quizQuestionsContainer = document.getElementById('quizQuestions');
+            quizQuestionsContainer.innerHTML = '';
+
+            for (var i = 0; i < questions.length; i++) {
+                var questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                var questionLabel = document.createElement('label');
+                questionLabel.textContent = questions[i].question;
+                questionDiv.appendChild(questionLabel);
+
+                for (var j = 0; j < questions[i].options.length; j++) {
+                    var optionDiv = document.createElement('div');
+                    optionDiv.classList.add('option');
+                    var optionInput = document.createElement('input');
+                    optionInput.type = 'radio';
+                    optionInput.name = 'answer' + i;
+                    optionInput.value = questions[i].options[j];
+                    var optionLabel = document.createElement('label');
+                    optionLabel.textContent = questions[i].options[j];
+
+                    optionDiv.appendChild(optionInput);
+                    optionDiv.appendChild(optionLabel);
+                    questionDiv.appendChild(optionDiv);
+                }
+
+                quizQuestionsContainer.appendChild(questionDiv);
+            }
+
+            // Show the submit quiz container
+            var submitQuizContainer = document.getElementById('submitQuizContainer');
+            submitQuizContainer.style.display = 'block';
+        }
+
+        // Submit quiz form data
+        function submitQuiz() {
+            var selectedAnswers = {};  // Dictionary to store the user's selected answers for each question
+
+            // Get the selected answers for each question
+            var questionDivs = document.getElementsByClassName('question');
+            for (var i = 0; i < questionDivs.length; i++) {
+                var questionNumber = i + 1;
+                var answerInputs = questionDivs[i].querySelectorAll('input[type="radio"]');
+                for (var j = 0; j < answerInputs.length; j++) {
+                    if (answerInputs[j].checked) {
+                        selectedAnswers['answer' + questionNumber] = answerInputs[j].value;
+                        break;
+                    }
+                }
+            }
+
+            var examCode = document.getElementsByName('examCode')[0].value;
+
+            var request = new XMLHttpRequest();
+            request.open('POST', '/submit_quiz', true);
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.onload = function() {
+                if (request.status === 200) {
+                    var response = JSON.parse(request.responseText);
+                    alert('Quiz submitted! You scored ' + response.marks + ' marks.');
+                    // You can perform additional actions after submitting the quiz, such as redirecting to a new page
+                    window.location.href = '/student'; // Replace with the desired URL
+                } else {
+                    alert('Error submitting the quiz. Please try again.');
+                }
+            };
+            request.send(JSON.stringify({examCode: examCode, answers: selectedAnswers}));
+        }
+
+        // Add event listener to the form submit button
+        var form = document.getElementById('quizForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            retrieveQuestions();
+        });
+
+        // Add event listener to the submit quiz button
+        var submitQuizBtn = document.getElementById('submitQuizBtn');
+        submitQuizBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            submitQuiz();
+        });
+    </script>
+{% endblock %}
