@@ -1,0 +1,87 @@
+{% extends 'student.html' %}
+
+{% block content %}
+  <title>Student Profile</title>
+  <style>
+    /* Add your custom CSS styles here */
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background-color: #ccc;
+      margin-right: 20px;
+    }
+
+    .username {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .details {
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    .details h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .details table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .details th, .details td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .details th {
+      background-color: #f0f0f0;
+      font-weight: bold;
+    }
+  </style>
+  <div class="header">
+    <div class="logo"></div>
+    <div class="username">{{ username }}</div>
+  </div>
+
+  <div class="details">
+    <h2>Profile Details</h2>
+    <table>
+      <tr>
+        <th>Name</th>
+        <td>{{ username }}</td>
+      </tr>
+      <tr>
+        <th>Department</th>
+        <td>{{ dept }}</td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>{{ mail }}</td>
+      </tr>
+      <tr>
+        <th>Phone</th>
+        <td>{{ mobile_no }}</td>
+      </tr>
+      <tr>
+        <th>Date of Birth</th>
+        <td>{{ DOB }}</td>
+      </tr>
+      <!-- Add more rows as needed -->
+    </table>
+  </div>
+{% endblock %}

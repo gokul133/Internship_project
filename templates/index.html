@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="CodeTantra, Interactive Platform for Virtual School, Virtual University, Online Classes, Assessments, Low Bandwidth, Teach Anywhere, Learn Coding, Online Proctored Examinations, Online Remote Proctored Examinations, Proctored Examinations, Video teaching platform, Online teaching, Virtual teaching, Online classroom, virtual classroom, online exams, bandwidth efficient platform, bandwidth efficient online exams, bandwidth efficient online meetings, bandwidth efficient online classroom, bandwidth efficient online teaching, interactive online teaching"
+    />
+    <meta name="keywords" content="CodeTantra, Interactive Platform for Virtual School, Virtual University, Online Classes, Assessments, Low Bandwidth, Teach Anywhere, Learn Coding, Online Proctored Examinations, Online Remote Proctored Examinations, Proctored Examinations, Video teaching platform, Online teaching, Virtual teaching, Online classroom, virtual classroom, online exams, bandwidth efficient platform, bandwidth efficient online exams, bandwidth efficient online meetings, bandwidth efficient online classroom, bandwidth efficient online teaching, interactive online teaching"
+    />
+
+    <title>TestApp</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@700&family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+
+    <link href="/static/css/bootstrap-latest.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/css/2.css" rel="stylesheet">
+
+    <script src="/static/js/jquery-latest.js"></script>
+    <script src="/static/js/bootstrap.bundle.js"></script>
+    <script>
+        if (window.parent !== window) {
+            try {
+                // in iframe or frame
+                console.log(window.top.location.href); // triggers error in case of a malicious clickjacking attempt
+                if (window.parent.location.pathname === '/secure/tla/jnr.jsp') {
+                    // parent is jnr
+                    window.parent.location.href = window.location.href;
+                }
+                console.log(window.top.location.href);
+            } catch (e) {
+                try {
+                    window.top.location.href = window.location.href
+                } catch (e1) {
+                    window.addEventListener('load', function() {
+                        document.querySelector('body').innerHTML = '<p style="font-size: 3rem; line-height: 2; margin-top: 3rem; text-align: center"><mark>This website is maliciously trying to embed CodeTantra.com inside a frame.<br/><br/>This is likely a clickjacking attack. Please notify support@codetantra.com with a complete screenshot.</mark></p>';
+                    });
+                }
+            }
+        }
+        $(function() {
+            $('[data-toggle="offcanvas"]').on('click', function() {
+                $('.offcanvas-collapse').toggleClass('open')
+            });
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+</head>
+
+<body class="bg-light d-flex flex-column d-lg-block">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light px-0 px-lg-3 border-bottom" style="padding-bottom: 2vh; padding-top: 2vh;">
+        <div class="container">
+            <a class="navbar-toggler border-0" data-toggle="offcanvas" data-target="#navbar-toggler" aria-controls="navbar-toggler">&#x2630;&nbsp;&nbsp;<!--suppress CheckImageSize -->
+            </a>
+            <div class="navbar-collapse offcanvas-collapse bg-light shadow shadow-none-lg" id="navbar-toggler">
+                <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+                    <li class="nav-item dropdown">
+                    </li>
+                </ul>
+                <form class="form-inline ml-auto" style="padding-left: 5em; padding-right: 1em" action="#">
+                    <a class="btn btn-sm d-none d-lg-block btn-success my-2 my-lg-0 py-0 w-100" href="{{ url_for('login') }}">Log in</a>
+                    <a class="btn btn-sm d-block d-lg-none btn-success my-3 w-100" href="{{ url_for('login') }}" title="Click to log in">Log in</a>
+                    <a class="btn btn-sm btn-outline-light d-lg-none p-0 mx-auto my-0 text-primary" data-toggle="offcanvas" data-target="#navbar-toggler" aria-controls="navbar-toggler"><small>Close Menu</small></a>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <script>
+        if (window.parent !== window) {
+            // in iframe or frame
+            if (!window.top.location.hostname.endsWith('.codetantra.com')) {
+                // someone embedded us outside codetantra
+                window.top.location.href = window.location.href;
+            } else if (window.parent.location.pathname === '/secure/tla/jnr.jsp') {
+                // parent is jnr
+                window.parent.location.href = window.location.href;
+            }
+        }
+    </script>
+    <script src="/static/js/custom/jq-counter.js"></script>
+
+    <section id="jumbo" class="jumbotron jumbotron-fluid py-0 bg-transparent top-jumbo">
+        <div class="container text-center justify-content-center">
+            <div class="row">
+                <div class="col-12 d-inline d-lg-none position-absolute" style="top: 0; left: 0; margin-top: 4em; opacity: 0.1">
+                    <img class="mw-100 w-50" src="/static/images/i/school.svg" alt="Jump start your school's move to the cloud" />
+                </div>
+                <div class="col-12 d-none d-lg-block col-lg-4">
+                    <div class="carousel-fade slide" data-ride="carousel" data-interval="3817">
+                        <div class="carousel-inner">
+                            <div class="carousel-item">
+                                <img class="mw-100" src="/static/images/i/school.svg" style="opacity: 50%; width: 80%" alt="Bring your blackboard online" />
+                            </div>
+                            <div class="carousel-item active">
+                                <img class="mw-100" src="/static/images/i/undraw_remotely_2j6y.svg" style="width: 80%" alt="Connect with your students remotely" />
+                            </div>
+                            <div class="carousel-item">
+                                <img class="mw-100" src="/static/images/i/undraw_youtube_tutorial_2gn3.svg" alt="Let them participate both live as well as at their convenience" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-8">
+                    <h1 class="jumbo-text display-4 d-none d-lg-block">Your virtual university, in minutes!</h1>
+                    <h1 class="jumbo-text d-lg-none">Your virtual univ/school, in minutes!</h1>
+                    <p class="d-none d-lg-block lead text-muted">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Excepturi recusandae quas ipsam fugiat quam voluptatum dicta, iure necessitatibus repellat reprehenderit odit officia labore aliquid perferendis reiciendis perspiciatis nisi maiores amet nobis. Ab autem quas eligendi?</p>
+                    <p class="d-lg-none text-muted">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro consequuntur, facere ea maxime at, accusamus assumenda reprehenderit voluptatem ducimus dolorum commodi fugiat eveniet magni ab ex maiores facilis libero eaque, dolor provident. Quis, ducimus quos.</p>
+                    <a class="btn btn-sm d-block d-lg-none btn-success my-3 w-100 mb-n2" href="/templates/login.html" title="Click to log in" aria-label="Click to log in" role="button">Log in</a>
+                    <div class="d-lg-flex flex-lg-column d-none justify-content-center align-items-center flex-nowrap mw-100">
+                        <div class="form-text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="counters" class="container py-0">
+        <div class="row text-center">
+            <div class="col-4 col-lg-2">
+                <div class="counter">
+                    <img src="/static/images/i/school.svg" class="text-info my-0 mx-auto d-table float-none" alt="Schools" />
+                    <h3 class="timer count-title count-number" data-to="1457" data-speed="1500"></h3>
+                    <p class="count-text ">Institutions</p>
+                </div>
+            </div>
+            <div class="col-4 col-lg-2">
+                <div class="counter">
+                    <img src="/static/images/i/teacher.svg" class="text-info my-0 mx-auto d-table float-none" alt="Teachers" />
+                    <h3 class="timer count-title count-number" data-to="66305" data-speed="1500"></h3>
+                    <p class="count-text ">Teachers</p>
+                </div>
+            </div>
+            <div class="col-4 col-lg-2">
+                <div class="counter">
+                    <img src="/static/images/i/student.svg" class="text-info my-0 mx-auto d-table float-none" alt="Learners" />
+                    <h3 class="timer count-title count-number" data-to="1198335" data-speed="1500"></h3>
+                    <p class="count-text ">Learners</p>
+                </div>
+            </div>
+            <div class="col-4 col-lg-2">
+                <div class="counter">
+                    <img src="/static/images/i/meeting.svg" class="text-info my-0 mx-auto d-table float-none" alt="Meetings" />
+                    <h3 class="timer count-title count-number" data-to="9776203" data-speed="1500"></h3>
+                    <p class="count-text ">Meetings</p>
+                </div>
+            </div>
+            <div class="col-4 col-lg-2">
+                <div class="counter">
+                    <img src="/static/images/i/test.svg" class="text-info my-0 mx-auto d-table float-none" alt="Tests" />
+                    <h3 class="timer count-title count-number" data-to="8546991" data-speed="1500"></h3>
+                    <p class="count-text ">Tests</p>
+                </div>
+            </div>
+            <div class="col-4 col-lg-2">
+                <div class="counter">
+                    <img src="/static/images/i/assignment.svg" class="text-info my-0 mx-auto d-table float-none" alt="Assignments" />
+                    <h3 class="timer count-title count-number" data-to="39697965" data-speed="1500"></h3>
+                    <p class="count-text ">Assignments</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="RemoteProctoring" class="jumbotron jumbotron-fluid my-0 bg-transparent">
+        <div class="container">
+            <div class="row px-lg-5 px-0 py-0 align-items-center">
+                <div class="col-12 col-lg-6 overflow-hidden d-none d-lg-block text-center">
+                    <img src="/static/images/i/undraw_color_palette_yamk.svg" alt="Remote exams" class="w-75 py-2" />
+                    <img src="/static/images/i/undraw_online_test_gba7.svg" alt="Live monitoring one on one" class="w-75 py-2" />
+                    <img src="/static/images/i/undraw_exams_g4ow.svg" alt="Remote exams" class="w-75 py-2" />
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h3 class="jumbo-text">Lorem ipsum dolor sit, amet consectetur adipisicing.</h3>
+                    <p class="text-muted lead">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quisquam magnam quia libero placeat! Velit, sapiente! Accusantium.
+                    </p>
+                    <ul class="fa-ul text-dark text-justify">
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore debitis dignissimos, atque ipsum temporibus officiis.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, praesentium saepe impedit sed enim perspiciatis!
+                            audio streams
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti, dolore.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia praesentium voluptates cumque quia sequi velit tenetur dolores blanditiis illum, ut eaque obcaecati aut amet enim cupiditate quasi exercitationem incidunt.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed impedit dolor praesentium ipsa nesciunt necessitatibus.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corrupti esse facilis ex ab, explicabo hic optio obcaecati temporibus?
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus voluptate quas minus molestiae iste! Ea!
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem, ipsum dolor.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem, ipsum dolor.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quibusdam, nemo?
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis, consequatur.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="LiveMeetings" class="jumbotron jumbotron-fluid my-0">
+        <div class="container">
+            <div class="row px-lg-5 px-0 py-0 align-items-center justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <h3 class="jumbo-text">Live Meetings</h3>
+                    <p class="text-muted lead">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto molestiae magni deleniti corrupti ipsum debitis.
+                    </p>
+                    <ul class="fa-ul text-dark text-justify">
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus doloribus veniam cumque?
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam sunt autem asperiores aliquam quidem a adipisci eius quo.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, veritatis?
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium voluptatibus cupiditate blanditiis!
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus nam, fugiat quos laborum voluptate veniam illo labore dolores? Est commodi ullam sequi natus, facere amet ipsum laborum consequatur.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia!
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corporis, ut omnis! Reiciendis ratione et animi eum fugit, praesentium sapiente dicta, reprehenderit saepe magni voluptas sequi?
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquid optio labore qui nam inventore perspiciatis obcaecati ipsum ullam modi.
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-12 col-lg-4 overflow-hidden d-none d-lg-block text-right">
+                    <img src="/static/images/i/undraw_group_video_el8e.svg" alt="Live video conferencing ++" class="w-100">
+                    <img src="/static/images/i/undraw_remote_meeting_cbfk.svg" alt="Live monitoring one on one" class="w-100" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="VirtualX" class="jumbotron jumbotron-fluid my-0">
+        <div class="container">
+            <div class="row px-lg-5 px-0 py-0 align-items-center">
+                <div class="col-12 col-lg-6">
+                    <h3 class="jumbo-text">Virtual university / school</h3>
+                    <p class="text-muted lead">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam!
+                    </p>
+                    <ul class="fa-ul text-dark text-justify">
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, eos?
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, commodi minus reprehenderit iste sequi fuga?
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis porro blanditiis odit sapiente!
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Exercitationem et adipisci voluptates laborum nam quia!
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias delectus sequi quis eaque minus voluptatem incidunt excepturi quo esse iste, vero minima doloribus, eius perferendis.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi odit reprehenderit sunt quod, accusantium unde sit cupiditate perspiciatis. Tempora.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quia, animi.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima.
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit neque ad cumque illo.
+                        </li>
+                    </ul>
+                </div>
+                <img class="col-12 col-lg-6 overflow-hidden d-none d-lg-block" src="/static/images/i/undraw_teaching_f1cm.svg" alt="Bring your college, school, university online" />
+            </div>
+        </div>
+    </section>
+
+    <section id="OnlineCourses" class="jumbotron jumbotron-fluid my-0 bg-white">
+        <div class="container">
+            <div class="row px-lg-5 px-0 py-0 align-items-center">
+                <div class="col-12">
+                    <h3 class="jumbo-text">Interactive Online Courses with Certifications</h3>
+                    <p class="text-muted lead">
+                        Learn by doing, live hands-on practice with instant feedback and corrective help, self-paced interactive courses
+                    </p>
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-2 d-none d-lg-block"></div>
+                        <div class="col-lg-5 col-12">
+                            <ul class="fa-ul text-muted font-weight-bold text-justify">
+                                <li>
+                                    <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Award winning programming courses <a title="Buy"></a>
+                                    <ul class="fa-ul text-dark text-justify font-weight-normal">
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> <a title="More Details">Programming
+                                        in Python</a>
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> <a title="More Details">Programming in Java</a>
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> <a title="More Details">Programming in
+                                        C</a>
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> <a title="More Details">Programming
+                                        in C++</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Courses on popular technologies <a title="Buy"></a> <a title="Contact us"></a>
+                                    <ul class="fa-ul text-dark text-justify font-weight-normal">
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> <a title="More details">Big Data + Hadoop</a>
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> <a title="More details">Selenium 2.0</a>
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Internet of Things
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Fundamentals of Machine Learning & Data Science
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-5 col-12 text-center d-none d-lg-block">
+                            <img src="/static/images/i/ct-process-sm.jpg" alt="Coding courses" class="w-100 py-2" />
+                        </div>
+                        <div class="col-lg-5 col-12 text-center d-none d-lg-block">
+                            <img src="/static/images/i/undraw_proud_coder_7ain.svg" alt="Coding courses" class="w-100 py-2" />
+                        </div>
+                        <div class="col-lg-5 col-12">
+                            <ul class="fa-ul text-muted font-weight-bold text-justify">
+                                <li>
+                                    <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Courses on computer science fundamentals <a title="Contact us"></a>
+                                    <ul class="fa-ul text-dark text-justify font-weight-normal">
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Computational Thinking & Programming for Problem Solving
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Data Structures in C
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Data Structures in C++
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Design and Analysis of Algorithms in C
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Design and Analysis of Algorithms in C++
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Advanced Data Structures in C
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Advanced Data Structures in C++
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Data Structures in Python
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-2 d-none d-lg-block"></div>
+                        <div class="col-lg-3 d-none d-lg-block"></div>
+                        <div class="col-12 col-lg-4">
+                            <ul class="fa-ul text-muted font-weight-bold text-justify">
+                                <li>
+                                    <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Instructor led Internship Programs with Projects
+                                    <a title="Contact us"></a>
+                                    <ul class="fa-ul text-dark text-justify font-weight-normal">
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Practical Artificial Intelligence
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Internet of Things
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Fundamentals of Machine Learning & Data Science
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="fa-ul text-muted font-weight-bold text-justify">
+                                <li>
+                                    <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Campus Recruitment Preparation
+                                    <a title="Contact us"></a>
+                                    <ul class="fa-ul text-dark text-justify font-weight-normal">
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Quantitative Aptitude
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Verbal
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Analytical Reasoning
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> English
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Communication & Interviewing
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Competitive Programming
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-lg-5 text-left d-none d-lg-block">
+                            <img src="/static/images/i/undraw_youtube_tutorial_2gn3.svg" alt="Instructor led programs" class="py-2 w-100" />
+                        </div>
+                        <div class="col-12 col-lg-5 text-left d-none d-lg-block">
+                            <img src="/static/images/i/undraw_happy_announcement_ac67.svg" alt="Instructor led programs" class="py-2 w-100" />
+                        </div>
+                        <div class="col-12 col-lg-5">
+                            <ul class="fa-ul text-muted font-weight-bold text-justify">
+                                <li>
+                                    <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> Study Abroad
+                                    <a title="Contact us"></a>
+                                    <ul class="fa-ul text-dark text-justify font-weight-normal">
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> ACT
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> IELTS
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> SAT
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> TOEFL
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> GRE
+                                        </li>
+                                        <li>
+                                            <span class="fa-li"><i class="fa fa-check-circle-o"></i></span> GMAT
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-2 d-none d-lg-block"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="navbar navbar-expand navbar-light bg-gradient-light order-10 border-top">
+        <div class="container align-content-center justify-content-center">
+            <p class="navbar-nav">
+                <a class="nav-item nav-link">&copy;  Copyright Test.com</a>
+                <a class="nav-item nav-link">Terms & Privacy</a>
+                <a class="nav-item nav-link">About</a>
+                <a class="nav-item nav-link">Help & Support</a>
+            </p>
+        </div>
+    </footer>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JTX8NN8T16"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-JTX8NN8T16');
+    </script>
+</body>
+
+</html>

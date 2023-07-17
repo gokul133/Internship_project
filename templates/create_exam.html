@@ -1,0 +1,157 @@
+{% extends 'teacher.html' %}
+
+{% block content %}
+    <style>
+        .page-container {
+            display: flex;
+            font-family: 'Inter', sans-serif;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: auto;
+        }
+
+        .form-container {
+            font-family: 'Inter', sans-serif;
+            width: 400px;
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .form-container h1 {
+            font-family: 'Inter', sans-serif;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .form-container label {
+            font-family: 'Inter', sans-serif;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .form-container input[type="number"],
+        .form-container input[type="text"],
+        .form-container select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            display: block;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+            padding: 10px;
+            background-color: #613CB0;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .form-container .choices-container {
+            margin-top: 10px;
+        }
+
+        .form-container .choices-container label {
+            font-family: 'Inter', sans-serif;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .form-container .choices-container input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-container .choices-container select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-container .question-container:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 30px; /* Increased padding */
+            margin-bottom: 30px; /* Increased margin */
+        }
+
+        @media (max-width: 600px) {
+            .form-container {
+                width: 90%;
+            }
+        }
+    </style>
+    <script>
+        function createQuestions()
+        {
+            var examCode = document.getElementsByName('examCode')[0].value;
+            var numQuestions = parseInt(document.getElementById('numQuestions').value);
+            var questionsContainer = document.getElementById('questionsContainer');
+            questionsContainer.innerHTML = '';
+
+            var request = new XMLHttpRequest();
+            request.open("GET", "/check_exam_code1?examCode=" + examCode, true);
+            request.onreadystatechange = function() {
+                if (request.readyState === 4 && request.status === 200)
+                {
+                    var response = JSON.parse(request.responseText);
+                    if (response.exists)
+                    {
+                        alert("Exam code already exists!!! \nPlease enter a different exam code.");
+                    } else {
+                        for (var i = 1; i <= numQuestions; i++)
+                        {
+                            var questionContainer = document.createElement('div');
+                            questionContainer.classList.add('question-container');
+
+                            var questionDiv = document.createElement('div');
+                            var questionLabel = document.createElement('label');
+                            questionLabel.textContent = 'Question ' + i;
+                            var questionInput = document.createElement('input');
+                            questionInput.type = 'text';
+                            questionInput.name = 'question' + i;
+
+                            questionDiv.appendChild(questionLabel);
+                            questionDiv.appendChild(questionInput);
+
+                            questionContainer.appendChild(questionDiv);
+                            questionsContainer.appendChild(questionContainer);
+                        }
+                    }
+                }
+            };
+            request.send();
+        }
+    </script>
+    <div class="page-container">
+        <div class="form-container">
+            <h1>Create Exam</h1>
+            <form method="post">
+                <label>Exam Code:
+                    <input type="text" name="examCode" required>
+                </label>
+                <label>Number of Questions:
+                    <input type="number" name="numQuestions" id="numQuestions" min="1" max="100" required>
+                </label>
+                <button type="button" onclick="createQuestions()">Create Questions</button>
+                <div id="questionsContainer"></div>
+                <br>
+                <button type="submit">Create Exam</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

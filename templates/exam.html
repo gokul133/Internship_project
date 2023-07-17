@@ -1,0 +1,258 @@
+{% extends 'student.html' %}
+
+{% block content %}
+    <style>
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .submitQuizBtn {
+            background-color: #613CB0;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            padding: 8px;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .quiz-container {
+            position: relative;
+            width: 400px;
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+        }
+
+        input[type="text"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #613CB0;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .option {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .question:not(:last-child) {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+    <div class="container">
+        <div id="timer" class="timer"></div>
+        <div class="quiz-container">
+            <h1>Quiz</h1>
+
+            <form id="quizForm" method="post" action="/submit_exam" enctype="multipart/form-data">
+                <label>Enter Exam Code:
+                    <input type="text" name="examCode">
+                </label>
+                <input type="submit" value="Retrieve Questions">
+
+                <div id="questionsContainer"></div>
+            </form>
+
+            <div id="submitQuizContainer" style="display: none;">
+                <h2>Quiz Questions</h2>
+                <div id="quizQuestions"></div>
+                <button class="submitQuizBtn" id="submitQuizBtn">Submit Exam</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var totalTime;  // Total time for the quiz in seconds
+        var secondsLeft;  // Remaining time in seconds
+        var countdownInterval;  // Reference to the countdown interval
+
+        // Function to start the countdown timer
+        function startTimer() {
+            var timerDisplay = document.getElementById('timer');
+            countdownInterval = setInterval(function() {
+                var minutes = Math.floor(secondsLeft / 60);
+                var seconds = secondsLeft % 60;
+                timerDisplay.textContent = 'Time Remaining: ' + minutes + 'm ' + seconds + 's';
+
+                if (secondsLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    submitQuiz();
+                }
+
+                secondsLeft--;
+            }, 1000);
+        }
+
+        // Function to retrieve the questions and options from the server
+        function retrieveQuestions() {
+            var examCode = document.getElementsByName('examCode')[0].value;
+
+            var request = new XMLHttpRequest();
+            request.open("GET", "/retrieve_questions1?examCode=" + examCode, true);
+            request.onreadystatechange = function() {
+                if (request.readyState === 4 && request.status === 200) {
+                    var response = JSON.parse(request.responseText);
+                    if (response.questions.length === 0) {
+                        alert("No questions found for the entered exam code.");
+                    } else if (response.questions.length === 0 && response.hasOwnProperty('flash_message')) {
+                        alert(response.flash_message);
+                    } else {
+                        displayQuestions(response.questions);
+                    }
+                }
+            };
+            request.send();
+        }
+
+        // Function to display the retrieved questions and options
+        // Function to display the retrieved questions and options
+        function displayQuestions(questions) {
+            var questionsContainer = document.getElementById('questionsContainer');
+            questionsContainer.innerHTML = '';
+            var quizQuestionsContainer = document.getElementById('quizQuestions');
+            quizQuestionsContainer.innerHTML = '';
+
+            for (var i = 0; i < questions.length; i++) {
+                var questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                var questionLabel = document.createElement('label');
+                questionLabel.textContent = questions[i].question;
+                questionDiv.appendChild(questionLabel);
+
+                // Create file upload element
+                var fileUploadContainer = document.createElement('div');
+                var chooseFileInput = document.createElement('input');
+                chooseFileInput.type = 'file';
+                chooseFileInput.name = 'file' + (i + 1);
+                fileUploadContainer.appendChild(chooseFileInput);
+                questionDiv.appendChild(fileUploadContainer);
+
+                quizQuestionsContainer.appendChild(questionDiv);
+            }
+
+            // Show the submit quiz container
+            var submitQuizContainer = document.getElementById('submitQuizContainer');
+            submitQuizContainer.style.display = 'block';
+
+            // Start the timer
+            totalTime = questions.length * 60;  // Each question carries 1 minute (60 seconds)
+            secondsLeft = totalTime;
+            startTimer();
+        }
+
+        // Submit quiz form data
+        // Submit quiz form data
+        // Submit quiz form data
+        function submitQuiz() {
+            clearInterval(countdownInterval);
+
+            var examCode = document.getElementsByName('examCode')[0].value;
+            var form = document.getElementById('quizForm');
+            var formData = new FormData(form);
+
+            var request = new XMLHttpRequest();
+            request.open('POST', '/submit_exam', true);
+            request.onload = function() {
+                if (request.status === 200) {
+                    var response = JSON.parse(request.responseText);
+                    alert('Exam submitted! You can view your results.');
+                    // You can perform additional actions after submitting the exam, such as redirecting to a new page
+                    window.location.href = '/student'; // Replace with the desired URL
+                } else {
+                    alert('Error submitting the exam. Please try again.');
+                }
+            };
+
+            var fileInputs = document.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(function(input) {
+                var files = input.files;
+                if (files.length > 0) {
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        formData.append(input.name, file); // Append the file with the same name
+                    }
+                }
+            });
+
+
+
+
+            request.send(formData);
+        }
+
+
+
+        // Add event listener to the form submit button
+        // Add event listener to the form submit button
+        var form = document.getElementById('quizForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission behavior
+            retrieveQuestions(); // Retrieve questions instead of submitting the form
+        });
+
+        // Add event listener to the submit quiz button
+        var submitQuizBtn = document.getElementById('submitQuizBtn');
+        submitQuizBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default form submission behavior
+            submitQuiz(); // Submit the quiz
+        });
+
+
+// Remove the event listener for the submit quiz button
+
+
+    </script>
+{% endblock %}
